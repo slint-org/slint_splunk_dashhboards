@@ -1,0 +1,134 @@
+<dashboard theme="dark">
+  <label>SLINT Donations Dashboard</label>
+  <row>
+    <panel>
+      <html>
+        <head>
+          <style>
+          img
+          { float: right;
+          }
+          </style>
+        </head>
+        <body>
+<p>
+            <img src="/static/app/sierra_leone/slint.png" alt="Pineapple" style="width:200px;height:150px;margin-left:15px;" hspace="10"/>
+          </p>
+        <h1>
+          <b>SLINT Donations Overview</b>
+        </h1>
+      <p>Welcome SLINT Technologist and Financial Experts</p>
+      <p>The following dashboard is an overview of our monetary contributions and overall financial posture as it regards funds given/donated by SLINT Members and Non-Members.</p>
+      <p>This dashboard was built by Sahr Lebbie but can and should be manipulated and transformed in whatever manner makes sense for us as engineers/technologist. The goal is to be able to build dashboards that can be multipurposed for our environments.</p>
+      <p color="red">Blatant plagiarism is despised in the IT world but code manipulation and enhancement is strongly encouraged. At SLINT, we ask that when using dashboards, knowledge objects, or custom codes, created by another developer on Slint's Team; please give credit to that developer so that he/she work may receive whatever rewards or acolades given.</p>
+      </body>
+    </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <single>
+        <search>
+          <query>| inputlookup  registration_costs |join type=left usetime=false [|search index=slint |stats sum(amount_donated) as amount_collected] |eval balance=amount_collected-costs |fields balance</query>
+          <earliest>0</earliest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0.00</option>
+        <option name="rangeColors">["0xdc4e41","0x53a051"]</option>
+        <option name="rangeValues">[0]</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="underLabel">Balance Remaining</option>
+        <option name="unit">$</option>
+        <option name="unitPosition">before</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+    <panel>
+      <single>
+        <search>
+          <query>index=slint |stats sum(amount_donated)</query>
+          <earliest>0</earliest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0.00</option>
+        <option name="rangeColors">["0x53a051","0x53a051"]</option>
+        <option name="rangeValues">[0]</option>
+        <option name="underLabel">Total Registration Amount Donated</option>
+        <option name="unit">$</option>
+        <option name="unitPosition">before</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+    <panel>
+      <single>
+        <search>
+          <query>| inputlookup append=t registration_costs |fields costs</query>
+          <earliest>-15m</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0.00</option>
+        <option name="rangeColors">["0x53a051","0xdc4e41"]</option>
+        <option name="rangeValues">[0]</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="underLabel">Registration Costs</option>
+        <option name="unit">$</option>
+        <option name="unitPosition">before</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Table of SLINT Registration Data</title>
+      <table>
+        <search>
+          <query>index=slint |table donation_date, member_name,donation_purpose,donation_collector,amount_donated</query>
+          <earliest>0</earliest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">100</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+        <format type="color" field="member_name">
+          <colorPalette type="sharedList"></colorPalette>
+          <scale type="sharedCategory"></scale>
+        </format>
+        <format type="color" field="amount_donated">
+          <colorPalette type="minMidMax" maxColor="#53A051" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="number" field="amount_donated">
+          <option name="unit">$</option>
+          <option name="unitPosition">before</option>
+        </format>
+      </table>
+    </panel>
+  </row>
+</dashboard>
